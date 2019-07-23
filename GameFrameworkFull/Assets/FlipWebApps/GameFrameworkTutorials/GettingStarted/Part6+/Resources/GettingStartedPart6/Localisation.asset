@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f327146759874a1458f8e8775f245234, type: 3}
+  m_Name: Localisation
+  m_EditorClassIdentifier: 
+  _languages:
+  - Name: English
+    Code: en
+  - Name: Norwegian
+    Code: no
+  _entries:
+  - Key: Settings.Button
+    Description: 
+    Languages:
+    - Press Me
+    - Trykk Meg
+  - Key: W1.Name
+    Description: 
+    Languages:
+    - Forest
+    - Skog
+  - Key: W2.Name
+    Description: 
+    Languages:
+    - Ice
+    - Is
+  - Key: W3.Name
+    Description: 
+    Languages:
+    - Fantasy
+    - Fantasi
+  - Key: L1.Name
+    Description: 
+    Languages:
+    - W1 - L1
+    - Bane 1
+  - Key: L2.Name
+    Description: 
+    Languages:
+    - W1 - L2
+    - Bane 2
+  - Key: L3.Name
+    Description: 
+    Languages:
+    - W1 - L3
+    - Bane 3
+  - Key: L4.Name
+    Description: 
+    Languages:
+    - W2 - L1
+    - Bane 4
+  - Key: L5.Name
+    Description: 
+    Languages:
+    - W2 - L2
+    - Bane 5
+  - Key: L6.Name
+    Description: 
+    Languages:
+    - W2 - L3
+    - Bane 6
+  - Key: L7.Name
+    Description: 
+    Languages:
+    - W3 - L1
+    - Bane 7
+  - Key: L8.Name
+    Description: 
+    Languages:
+    - W3 - L2
+    - Bane 8
+  - Key: L9.Name
+    Description: 
+    Languages:
+    - W3 - L3
+    - Bane 9
+  - Key: L10.Name
+    Description: 
+    Languages:
+    - W3 - L4
+    - Bane 10
+  - Key: Game.TotalCoins
+    Description: 
+    Languages:
+    - '{0} x '
+    - '{0} x '
+  - Key: WorldSelect
+    Description: 
+    Languages:
+    - World Select
+    - Velg Verden
+  - Key: LevelSelect
+    Description: 
+    Languages:
+    - Level Select
+    - Velg Level

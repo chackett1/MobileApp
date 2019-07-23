@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: db4952f8602ebe74b9ba67717789052a
+labels:
+- Pooling
+- Optimisation
+- Optimization
+timeCreated: 1517488059
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: 948e0001ef11a5e4bac3ac547d5e5669, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
