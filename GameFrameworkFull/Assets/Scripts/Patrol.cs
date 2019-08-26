@@ -96,9 +96,9 @@ public class Patrol : MonoBehaviour {
 
             //Vector3 direction = player.position - this.transform.position;
             Vector3 direction;
-            if (Vector3.Distance(player.position, this.transform.position) < 10)
+            if (Vector3.Distance(player.position, this.transform.position) < 8)
             {
-                Debug.Log("Close to player");
+                //Debug.Log("Close to player");
 
                 direction = player.position - this.transform.position;
                 direction.y = 0;

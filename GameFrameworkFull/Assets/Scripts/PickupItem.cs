@@ -2,26 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PickupItem : MonoBehaviour
 {
     public PlayerController player;
     public GameObject attractedTo;
+    private Transform playerT;
     private float strengthOfAttraction = 40;
     private bool connectedItem = false;
     private bool pull = false;
-    private string[] tags = { "Player", "PlayerLayer1", "PlayerLayer2", "PlayerLayer3" };
-    private int tagIndex = 1;
+    private string[] tags = { "Player", "PlayerLayer1", "PlayerLayer2" };
+    private int tagIndex = 0;
     private bool layerFlag = false;
     private int requiredScore;
+    private int numOfLayersChanged = 0;
     //private bool hitFlag = false;
 
     // 1. If an object touches the ball or item on appropriate layer, attach item
     // 2. If an object touches an item that is an outter layer, pull item
     // 3. If an item is being pulled for too long, increase layer
 
+    // Collision
+    // if (player collision), attach item
+    // if (layer collision), pull item
+    // if (layer collision && pulling item), attach item
+
+
     void Start()
     {
+        playerT = attractedTo.GetComponent<Transform>();
+
+        //Debug.Log(GetComponentInChildren<Collider>().bounds.size.ToString());
         if (GetComponentInChildren<Collider>().bounds.size.ToString().Contains("14."))
         {
             requiredScore = 280;
@@ -93,9 +103,21 @@ public class PickupItem : MonoBehaviour
     {
         if (pull == true)
         {
-            Vector3 direction = attractedTo.transform.position - transform.position;
-            GetComponent<Rigidbody>().AddForce(strengthOfAttraction * direction);
-            Debug.Log("Pull");
+            /*
+            System.Random random = new System.Random();
+            if (random.Next(10) < 8)
+            {
+            */
+                Debug.Log("Pull");
+                Vector3 direction = attractedTo.transform.position - transform.position;
+                GetComponent<Rigidbody>().AddForce(strengthOfAttraction * direction);/*
+            }
+            else
+            {
+                Vector3 direction = attractedTo.transform.position - transform.position;
+                GetComponent<Rigidbody>().AddForce(strengthOfAttraction * direction * -1);
+                Debug.Log("Push");
+            }*/
         }
     }
 
@@ -121,6 +143,7 @@ public class PickupItem : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+
         /*if (transform.parent == null && connectedItem == true)
         {
             Reset();
@@ -130,35 +153,61 @@ public class PickupItem : MonoBehaviour
         }*/
 
         //Debug.Log(collision.gameObject);
-        if ((!connectedItem && (player.getCount() - requiredScore) >= 0 ) && collision.gameObject.tag.Equals("Player"))
+
+        // 1. If an object touches the ball or item on appropriate layer, attach item        
+        if ((!connectedItem && (player.getCount() - requiredScore) >= 0))
         {
-            if (collision.collider.gameObject.tag.Equals(tags[tagIndex - 1]) || tag.Equals("Enemy"))
+            if (collision.gameObject.tag.Equals(tags[0]) || collision.gameObject.tag.Equals(tags[1]) || collision.gameObject.tag.Equals(tags[2]))
             {
-                AttachItem(collision);
-            }
-            else if (collision.collider.gameObject.tag.Equals(tags[0]) || collision.collider.gameObject.tag.Equals(tags[1]) || collision.collider.gameObject.tag.Equals(tags[2]) || collision.collider.gameObject.tag.Equals(tags[3]))
-            {
-                if (layerFlag == false)
+                if (collision.collider.gameObject.tag.Equals("Player") || tag.Equals("Enemy"))
                 {
-                    if (tag.Equals("Enemy"))
-                    {
-                        Debug.Log("Stop Walking");
-                        Patrol.StopWalking();
-                    }
+                    AttachItem(collision);
+                }
+                else if (collision.collider.gameObject.tag.Equals(tags[tagIndex]))
+                {
+                    AttachItem(collision);
+                }
+                // 2. If an object touches an item that is an outter layer, pull item
+                else if (layerFlag == false)
+                {
+                    Debug.Log("Started PUlling");
                     pull = true;
-                    //GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                    //GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezeRotationX;
-                    //GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezeRotationZ;
-                    //GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
                     layerFlag = true;
-                    StartCoroutine(IncreaseLayerAfterTimeout());
+                    StartCoroutine(IncreaseLayerAfterTimeout(collision));
                 }
             }
         }
+        /*
+        if ((!connectedItem && (player.getCount() - requiredScore) >= 0))
+        {
+            if (collision.gameObject.tag.Equals(tags[0]) || collision.gameObject.tag.Equals(tags[1]) || collision.gameObject.tag.Equals(tags[2]))
+            {
+                // if (player collision), attach item
+                if (collision.collider.gameObject.tag.Equals("Player") || tag.Equals("Enemy"))
+                {
+                    AttachItem(collision);
+                }
+                // if (layer collision && pulling item), attach item
+                else if (pull == true)
+                {
+                    AttachItem(collision);
+                }
+                // if (layer collision), pull item
+                else
+                {
+                    pull = true;
+                    layerFlag = true;
+                    StartCoroutine(IncreaseLayerAfterTimeout(collision));
+                }
+            }
+        }
+        */
     }
 
     void AttachItem(Collision collision)
     {
+        Debug.Log("Attach");
+
         connectedItem = true;
         pull = false;
 
@@ -168,25 +217,57 @@ public class PickupItem : MonoBehaviour
 
         player.SetCountText();
 
+        if(tagIndex == 0)
+        {
+            tagIndex++;
+        }
         gameObject.tag = tags[tagIndex];
 
         player.setMostRecentItem(gameObject.name);
     }
 
-    IEnumerator IncreaseLayerAfterTimeout()
+    // 3. If an item is being pulled for too long, increase layer
+    IEnumerator IncreaseLayerAfterTimeout(Collision collision)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
 
         if (pull == true)
         {
             tagIndex++;
-            if (tagIndex == 4)
+            if (tagIndex == 3)
             {
                 tagIndex = 1;
             }
-            //Debug.Log(tagIndex);
+            Debug.Log(tagIndex);
+            
+            numOfLayersChanged++;
+            if (numOfLayersChanged == 4)
+            {
+                int distanceFromPlayer;
+                if (player.getCount() < 50)
+                {
+                    distanceFromPlayer = 2;
+                }
+                else
+                {
+                    distanceFromPlayer = 4;
+                }
+
+                if (Vector3.Distance(playerT.position, this.transform.position) < distanceFromPlayer)
+                {
+                    Debug.Log("Pulled for 6 seconds, attaching item.");
+                    //AttachItem(collision);
+                    pull = false;
+                }
+                else
+                {
+                    Debug.Log("Pulled for 6 seconds, dropping item.");
+                    pull = false;
+                }
+            }
+            
+            StartCoroutine(IncreaseLayerAfterTimeout(collision));
         }
-        layerFlag = false;
     }
 
     /*IEnumerator waitForItemToFallOff()

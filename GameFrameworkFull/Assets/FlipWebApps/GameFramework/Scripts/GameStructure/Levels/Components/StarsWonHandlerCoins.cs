@@ -98,7 +98,7 @@ namespace GameFramework.GameStructure.Levels.Components
                 
                 if (PlayerController.count >= Target1Star)
                 {
-                    Debug.Log("1");
+                    //Debug.Log("1");
                     level.StarWon(1, true);
                     if (levelPassed < sceneIndex)
                     {
@@ -109,7 +109,7 @@ namespace GameFramework.GameStructure.Levels.Components
                 if (PlayerController.count >= Target2Stars)
                 {
 
-                    Debug.Log("2");
+                    //Debug.Log("2");
                     level.StarWon(2, true);
                     if (levelPassed < sceneIndex)
                     {
@@ -119,7 +119,7 @@ namespace GameFramework.GameStructure.Levels.Components
                 if (PlayerController.count >= Target3Stars)
                 {
 
-                    Debug.Log("3");
+                    //Debug.Log("3");
                     level.StarWon(3, true);
                     if (levelPassed < sceneIndex)
                     {
@@ -129,7 +129,7 @@ namespace GameFramework.GameStructure.Levels.Components
                 if (PlayerController.count >= Target4Stars)
                 {
 
-                    Debug.Log("3");
+                    //Debug.Log("3");
                     level.StarWon(4, true);
                 }
             }

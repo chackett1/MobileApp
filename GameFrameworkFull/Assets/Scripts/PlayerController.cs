@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private float speedUp;
     //private int speedUpLimit;
     private Transform canTransform;
-    private float timeLeft = 240.0f;
+    private float timeLeft = 300.0f;
     private string mostRecentItem;
     //private string[] mostRecentItem;
     List<string> stringList;
